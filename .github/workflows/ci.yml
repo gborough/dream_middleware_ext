@@ -22,7 +22,7 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-compiler:
-          - 4.08.0
+          - 4.14.0
 
     runs-on: ${{ matrix.os }}
 
@@ -51,7 +51,7 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-compiler:
-          - 4.08.0
+          - 4.14.0
 
     runs-on: ubuntu-latest
     steps:
@@ -70,7 +70,7 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-compiler:
-          - 4.08.0
+          - 4.14.0
 
     runs-on: ubuntu-latest
     steps:

@@ -15,7 +15,7 @@ let ip_based_all_traffic_conf =
 (* or *)
 
 (* make ip based conf that allows traffic on specific paths *)
-(* let _ip_based_path_list_conf =
+(* let ip_based_path_list_conf =
   make_traffic_filter_conf
     ~filter_type:
       (Ips
@@ -30,7 +30,7 @@ let ip_based_all_traffic_conf =
 (* or *)
 
 (* make header based conf that allows traffic on specific paths *)
-(* let _header_based_conf =
+(* let header_based_conf =
   make_traffic_filter_conf
     ~filter_type:(Headers [ "THIS_HEADER"; "THAT_HEADER" ])
     ~target:RootAccess () *)
@@ -38,7 +38,7 @@ let ip_based_all_traffic_conf =
 (* or *)
 
 (* make cookie based conf that allows traffic on specific paths *)
-(* let _cookie_based_conf =
+(* let cookie_based_conf =
   make_traffic_filter_conf
     ~filter_type:(Cookies [ "THIS_COOKIE"; "THAT_COOKIE" ])
     ~target:RootAccess () *)

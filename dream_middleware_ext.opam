@@ -15,7 +15,7 @@ depends: [
   "ocaml" {>= "4.14.0"}
   "dream" {>= "1.0.0~alpha8"}
   "lwt_ppx"
-  "uri"
+  "uri" {>= "4.4.0"}
   "ppx_expect" {with-test}
   "ptime"
   "ipaddr"

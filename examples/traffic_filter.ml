@@ -15,7 +15,7 @@ let ip_based_all_traffic_conf =
 (* or *)
 
 (* make ip based conf that allows traffic on specific paths *)
-let _ip_based_path_list_conf =
+(* let _ip_based_path_list_conf =
   make_traffic_filter_conf
     ~filter_type:
       (Ips
@@ -25,23 +25,23 @@ let _ip_based_path_list_conf =
            x_real_ip = true;
          })
     ~target:(PathList [ "allow_here"; "allow_there" ])
-    ()
+    () *)
 
 (* or *)
 
 (* make header based conf that allows traffic on specific paths *)
-let _header_based_conf =
+(* let _header_based_conf =
   make_traffic_filter_conf
     ~filter_type:(Headers [ "THIS_HEADER"; "THAT_HEADER" ])
-    ~target:RootAccess ()
+    ~target:RootAccess () *)
 
 (* or *)
 
 (* make cookie based conf that allows traffic on specific paths *)
-let _cookie_based_conf =
+(* let _cookie_based_conf =
   make_traffic_filter_conf
     ~filter_type:(Cookies [ "THIS_COOKIE"; "THAT_COOKIE" ])
-    ~target:RootAccess ()
+    ~target:RootAccess () *)
 
 (* make ip based middleware or with other confs *)
 let ip_filter_middleware =

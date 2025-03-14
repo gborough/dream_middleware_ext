@@ -21,8 +21,8 @@
  (description "A collection of middleware utilities for Dream framework")
  (depends
   (ocaml
-   (>= 4.08.0))
-  (dream (>= 1.0.0~alpha6))
+   (>= 4.14.0))
+  (dream (>= 1.0.0~alpha8))
   lwt_ppx
   uri
   (ppx_expect :with-test)

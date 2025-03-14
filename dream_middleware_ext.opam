@@ -12,8 +12,8 @@ doc:
 bug-reports: "https://github.com/axons-talent/dream_middleware_ext/issues"
 depends: [
   "dune" {>= "2.7"}
-  "ocaml" {>= "4.08.0"}
-  "dream" {>= "1.0.0~alpha6"}
+  "ocaml" {>= "4.14.0"}
+  "dream" {>= "1.0.0~alpha8"}
   "lwt_ppx"
   "uri"
   "ppx_expect" {with-test}

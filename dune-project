@@ -13,7 +13,7 @@
 
 (license MIT)
 
-(documentation https://url/to/documentation)
+(documentation https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext)
 
 (package
  (name dream_middleware_ext)

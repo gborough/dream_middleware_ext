@@ -1,5 +1,6 @@
 [![CI](https://github.com/axons-talent/dream_middleware_ext/actions/workflows/ci.yml/badge.svg)](https://github.com/axons-talent/dream_middleware_ext/actions/workflows/ci.yml)
 
+[Documentation](https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext)
 
 # Dream Middleware Extension
 

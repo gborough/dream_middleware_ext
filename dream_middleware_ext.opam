@@ -11,7 +11,7 @@ doc:
   "https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext"
 bug-reports: "https://github.com/axons-talent/dream_middleware_ext/issues"
 depends: [
-  "dune" {>= "2.0"}
+  "dune" {>= "2.7"}
   "ocaml" {>= "4.08.0"}
   "dream"
   "lwt_ppx"
@@ -19,9 +19,10 @@ depends: [
   "ppx_expect" {with-test}
   "ptime"
   "ipaddr"
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"

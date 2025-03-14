@@ -1,0 +1,6 @@
+(library
+ (name test_dream_middleware_ext)
+ (libraries dream_middleware_ext)
+ (inline_tests)
+ (preprocess
+  (pps ppx_expect)))

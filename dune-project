@@ -1,0 +1,34 @@
+(lang dune 2.0)
+
+(name dream_middleware_ext)
+
+(generate_opam_files true)
+
+(source
+ (github axons-talent/dream_middleware_ext))
+
+(authors "Geoffrey Borough <geoffrey.borough@outlook.com>")
+
+(maintainers "Geoffrey Borough <geoffrey.borough@outlook.com>")
+
+(license MIT)
+
+(documentation https://url/to/documentation)
+
+(package
+ (name dream_middleware_ext)
+ (synopsis "A collection of middleware utilities for Dream framework")
+ (description "A collection of middleware utilities for Dream framework")
+ (depends
+  (ocaml
+   (>= 4.08.0))
+  dream
+  lwt_ppx
+  uri
+  (ppx_expect :with-test)
+  ptime
+  ipaddr)
+ (tags
+  (http web framework middleware)))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html

@@ -1,0 +1,8 @@
+(include_subdirs unqualified)
+
+(library
+ (public_name dream_middleware_ext)
+ (name dream_middleware_ext)
+ (libraries dream ptime ipaddr uri)
+ (preprocess
+  (pps lwt_ppx)))

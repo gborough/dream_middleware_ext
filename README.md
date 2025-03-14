@@ -4,7 +4,7 @@
 
 # Dream Middleware Extension
 
-A collection of middlewares for Dream framework
+A collection of middlewares for [Dream](https://aantron.github.io/dream/) framework
 
 Currently supporting the following functionalities:
 

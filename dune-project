@@ -22,7 +22,7 @@
  (depends
   (ocaml
    (>= 4.08.0))
-  (dream (>= 1.0.0~alpha7))
+  (dream (>= 1.0.0~alpha8))
   dune
   lwt_ppx
   (uri(>= 4.4.0))

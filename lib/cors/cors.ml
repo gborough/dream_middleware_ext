@@ -143,6 +143,11 @@ let is_preflight req =
 
 let validate_origin conf req =
   match Dream.header req "Origin" with
+  | Some "null" -> (
+    match conf.allowed_origin with
+    | WildCard -> Ok true
+    | _ -> Error OriginNotAllowed
+  )
   | Some orig -> (
       if not @@ is_valid_origin orig then Error OriginNotAllowed
       else
@@ -201,19 +206,19 @@ let set_allowed_origin_pf conf hrd =
         @ hrd
       else [ ("Access-Control-Allow-Origin", url_fn ()) ] @ hrd
 
-let build_allowed_origin conf req =
+let build_allowed_origin conf rep =
   match conf.allowed_origin with
-  | WildCard -> Dream.add_header req "Access-Control-Allow-Origin" "*"
+  | WildCard -> Dream.add_header rep "Access-Control-Allow-Origin" "*"
   | OriginUrl (ac, url) ->
       if ac == Allow then (
-        Dream.add_header req "Access-Control-Allow-Credentials" "true";
-        Dream.add_header req "Access-Control-Allow-Origin" url)
-      else Dream.add_header req "Access-Control-Allow-Origin" url
+        Dream.add_header rep "Access-Control-Allow-Credentials" "true";
+        Dream.add_header rep "Access-Control-Allow-Origin" url)
+      else Dream.add_header rep "Access-Control-Allow-Origin" url
   | OriginUrlFn (ac, url_fn) ->
       if ac == Allow then (
-        Dream.add_header req "Access-Control-Allow-Origin" @@ url_fn ();
-        Dream.add_header req "Access-Control-Allow-Credentials" "true")
-      else Dream.add_header req "Access-Control-Allow-Origin" @@ url_fn ()
+        Dream.add_header rep "Access-Control-Allow-Origin" @@ url_fn ();
+        Dream.add_header rep "Access-Control-Allow-Credentials" "true")
+      else Dream.add_header rep "Access-Control-Allow-Origin" @@ url_fn ()
 
 let set_req_headers_pf conf hrd =
   let lst = conf.allowed_headers in
@@ -287,13 +292,17 @@ let handle_cors is_preflight conf inner_handler req =
         Dream.respond ~headers:hrd ~status:`No_Content ""
       else Dream.respond ~headers:h_n ~status:`No_Content ""
   else (
-    build_allowed_origin conf req;
-    Dream.add_header req "Access-Control-Expose-Headers"
+    let rep : Dream.response Lwt.t = inner_handler req in
+    let%lwt rep = rep in
+    build_allowed_origin conf rep;
+    Dream.add_header rep "Access-Control-Expose-Headers"
     @@ hdr_str_of_list conf.expose_headers;
-    if conf.set_vary_header then build_vary_header req;
-    inner_handler req)
+    if conf.set_vary_header then build_vary_header rep;
+    print_all_headers rep; (* Debug *)
+    Lwt.return rep)
 
-let make_cors conf =
- fun inner_handler req ->
-  let is_preflight = conf.preflight && is_preflight req in
-  handle_cors is_preflight conf inner_handler req
+let make_cors : cors_conf -> Dream.middleware = 
+  fun conf ->
+  fun inner_handler req ->
+    let is_preflight = conf.preflight && is_preflight req in
+    handle_cors is_preflight conf inner_handler req

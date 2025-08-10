@@ -6,10 +6,9 @@ maintainer: ["Geoffrey Borough <geoffrey.borough@outlook.com>"]
 authors: ["Geoffrey Borough <geoffrey.borough@outlook.com>"]
 license: "MIT"
 tags: ["http" "web" "framework" "middleware"]
-homepage: "https://github.com/axons-talent/dream_middleware_ext"
-doc:
-  "https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext"
-bug-reports: "https://github.com/axons-talent/dream_middleware_ext/issues"
+homepage: "https://github.com/gborough/dream_middleware_ext"
+doc: "https://gborough.github.io/dream_middleware_ext/dream_middleware_ext"
+bug-reports: "https://github.com/gborough/dream_middleware_ext/issues"
 depends: [
   "ocaml" {>= "4.08.0"}
   "dream" {>= "1.0.0~alpha8"}
@@ -35,4 +34,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/axons-talent/dream_middleware_ext.git"
+dev-repo: "git+https://github.com/gborough/dream_middleware_ext.git"

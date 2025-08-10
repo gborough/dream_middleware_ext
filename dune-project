@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github axons-talent/dream_middleware_ext))
+ (github gborough/dream_middleware_ext))
 
 (authors "Geoffrey Borough <geoffrey.borough@outlook.com>")
 
@@ -13,7 +13,8 @@
 
 (license MIT)
 
-(documentation https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext)
+(documentation
+ https://gborough.github.io/dream_middleware_ext/dream_middleware_ext)
 
 (package
  (name dream_middleware_ext)
@@ -22,10 +23,12 @@
  (depends
   (ocaml
    (>= 4.08.0))
-  (dream (>= 1.0.0~alpha8))
+  (dream
+   (>= 1.0.0~alpha8))
   dune
   lwt_ppx
-  (uri(>= 4.4.0))
+  (uri
+   (>= 4.4.0))
   (ppx_expect :with-test)
   ptime
   ipaddr)

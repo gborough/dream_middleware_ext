@@ -1,6 +1,6 @@
-[![CI](https://github.com/axons-talent/dream_middleware_ext/actions/workflows/ci.yml/badge.svg)](https://github.com/axons-talent/dream_middleware_ext/actions/workflows/ci.yml)
+[![CI](https://github.com/gborough/dream_middleware_ext/actions/workflows/ci.yml/badge.svg)](https://github.com/gborough/dream_middleware_ext/actions/workflows/ci.yml)
 
-[Documentation](https://axons-talent.github.io/dream_middleware_ext/dream_middleware_ext)
+[Documentation](https://gborough.github.io/dream_middleware_ext/dream_middleware_ext)
 
 # Dream Middleware Extension
 
@@ -20,19 +20,19 @@ Platform supported: Unix
 
 ## Examples
 
-- CORS: https://github.com/axons-talent/dream_middleware_ext/blob/main/examples/cors.ml
+- CORS: https://github.com/gborough/dream_middleware_ext/blob/main/examples/cors.ml
 
-- Delay: https://github.com/axons-talent/dream_middleware_ext/blob/main/examples/delay.ml
+- Delay: https://github.com/gborough/dream_middleware_ext/blob/main/examples/delay.ml
 
-- Rate Limiter: https://github.com/axons-talent/dream_middleware_ext/blob/main/examples/rate_limiter.ml
+- Rate Limiter: https://github.com/gborough/dream_middleware_ext/blob/main/examples/rate_limiter.ml
 
-- Traffic Filter: https://github.com/axons-talent/dream_middleware_ext/blob/main/examples/traffic_filter.ml
+- Traffic Filter: https://github.com/gborough/dream_middleware_ext/blob/main/examples/traffic_filter.ml
 
 ## License
 
 This project is licensed under the [MIT license].
 
-[MIT license]: https://github.com/axons-talent/dream_middleware_ext/blob/main/LICENSE
+[MIT license]: https://github.com/gborough/dream_middleware_ext/blob/main/LICENSE
 
 ## Contribution
 

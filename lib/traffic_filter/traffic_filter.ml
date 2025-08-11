@@ -21,9 +21,10 @@ exception EmptyCookieList of string
 
 let is_elem s lst = List.mem s lst
 let is_valid_ipv4_pat s = Ipaddr.of_string s |> Result.is_ok
+let is_str_empty s = String.length s = 0
 
 let is_valid_ipv4s l =
-  if List.length l == 1 && (Utils.is_str_empty @@ List.hd l) then true
+  if List.length l == 1 && (is_str_empty @@ List.hd l) then true
   else if List.for_all (fun elt -> is_valid_ipv4_pat elt) l then true
   else false
 
@@ -36,8 +37,7 @@ let validate_target target =
   match target with
   | PathList lst ->
       if is_elem "/" lst then false
-      else if List.length lst == 1 && (Utils.is_str_empty @@ List.hd lst) then
-        false
+      else if List.length lst == 1 && (is_str_empty @@ List.hd lst) then false
       else true
   | _ -> true
 
@@ -58,11 +58,11 @@ let make_traffic_filter_conf ~filter_type ?(target = RootAccess) () =
           raise (OverlappingIps "Whitelist and blacklist must not overlap")
         else { filter_type; target }
     | Headers h ->
-        if List.exists (fun elt -> Utils.is_str_empty elt) h then
+        if List.exists (fun elt -> is_str_empty elt) h then
           raise (EmptyHeaderList "Header list must not be empty")
         else { filter_type; target }
     | Cookies c ->
-        if List.exists (fun elt -> Utils.is_str_empty elt) c then
+        if List.exists (fun elt -> is_str_empty elt) c then
           raise (EmptyCookieList "Cookie list must not be empty")
         else { filter_type; target }
 

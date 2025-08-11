@@ -74,7 +74,7 @@ let is_valid_methods ao am =
           else false)
 
 let is_valid_headers ao ah =
-  let open Utils in
+  let is_str_empty s = String.length s = 0 in
   match ao with
   | WildCard ->
       if
@@ -185,21 +185,19 @@ let cors_err_resp = function
   | HeadersNotAllowed ->
       Dream.respond ~status:`Bad_Request "Request header(s) not allowed"
 
-let set_allowed_origin_pf conf hrd =
+let set_allowed_origin_pf conf =
   match conf.allowed_origin with
-  | WildCard -> [ ("Access-Control-Allow-Origin", "*") ] @ hrd
+  | WildCard -> [ ("Access-Control-Allow-Origin", "*") ]
   | OriginUrl (ac, url) ->
       if ac == Allow then
         [ ("Access-Control-Allow-Credentials", "true") ]
         @ [ ("Access-Control-Allow-Origin", url) ]
-        @ hrd
-      else [ ("Access-Control-Allow-Origin", url) ] @ hrd
+      else [ ("Access-Control-Allow-Origin", url) ]
   | OriginUrlFn (ac, url_fn) ->
       if ac == Allow then
         [ ("Access-Control-Allow-Origin", url_fn ()) ]
         @ [ ("Access-Control-Allow-Credentials", "true") ]
-        @ hrd
-      else [ ("Access-Control-Allow-Origin", url_fn ()) ] @ hrd
+      else [ ("Access-Control-Allow-Origin", url_fn ()) ]
 
 let build_allowed_origin conf req =
   match conf.allowed_origin with
@@ -215,17 +213,17 @@ let build_allowed_origin conf req =
         Dream.add_header req "Access-Control-Allow-Credentials" "true")
       else Dream.add_header req "Access-Control-Allow-Origin" @@ url_fn ()
 
-let set_req_headers_pf conf hrd =
+let set_req_headers_pf conf =
   let lst = conf.allowed_headers in
   let hdrs = hdr_str_of_list lst in
-  [ ("Access-Control-Allow-Headers", hdrs) ] @ hrd
+  [ ("Access-Control-Allow-Headers", hdrs) ]
 
-let set_req_methods_pf conf hrd =
+let set_req_methods_pf conf =
   let lst = conf.allowed_methods in
   let mtds = hdr_str_of_list lst in
-  [ ("Access-Control-Allow-Methods", mtds) ] @ hrd
+  [ ("Access-Control-Allow-Methods", mtds) ]
 
-let set_vary_header_pf req hrd =
+let set_vary_header_pf req =
   match Dream.header req "Vary" with
   | Some h ->
       [
@@ -234,14 +232,12 @@ let set_vary_header_pf req hrd =
           ^ ", Origin, Access-Control-Request-Method, \
              Access-Control-Request-Headers" );
       ]
-      @ hrd
   | None ->
       [
         ( "Vary",
           "Origin, Access-Control-Request-Method, \
            Access-Control-Request-Headers" );
       ]
-      @ hrd
 
 let build_vary_header req =
   match Dream.header req "Vary" with
@@ -254,20 +250,21 @@ let build_vary_header req =
       Dream.add_header req "Vary"
         "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
 
-let set_max_age_pf conf hrd =
+let set_max_age_pf conf =
   [ ("Access-Control-Max-Age", string_of_int @@ int_of_float conf.max_age) ]
-  @ hrd
 
 let non_preflight_headers req =
   let ao = Dream.header req "Access-Control-Allow-Origin" |> Option.get in
   let eh = Dream.header req "Access-Control-Expose-Headers" |> Option.get in
   let vh = Dream.header req "Vary" |> Option.get in
-  [ ("Access-Control-Allow-Origin", ao) ]
-  @ [ ("Access-Control-Expose-Headers", eh) ]
-  @ [ ("Vary", vh) ]
+  List.concat
+    [
+      [ ("Access-Control-Allow-Origin", ao) ];
+      [ ("Access-Control-Expose-Headers", eh) ];
+      [ ("Vary", vh) ];
+    ]
 
 let handle_cors is_preflight conf inner_handler req =
-  let hrd = [] in
   let vo = validate_origin conf req in
   let vrm = validate_request_method conf req in
   let vrh = validate_request_headers conf req in
@@ -276,13 +273,13 @@ let handle_cors is_preflight conf inner_handler req =
     if Result.is_error vrm then cors_err_resp @@ Result.get_error vrm
     else if Result.is_error vrh then cors_err_resp @@ Result.get_error vrh
     else
-      let h_ao = set_allowed_origin_pf conf hrd in
-      let h_ma = set_max_age_pf conf hrd in
-      let h_rh = set_req_headers_pf conf hrd in
-      let h_rm = set_req_methods_pf conf hrd in
-      let h_n = h_ao @ h_ma @ h_rh @ h_rm in
+      let h_ao = set_allowed_origin_pf conf in
+      let h_ma = set_max_age_pf conf in
+      let h_rh = set_req_headers_pf conf in
+      let h_rm = set_req_methods_pf conf in
+      let h_n = List.concat [ h_ao; h_ma; h_rh; h_rm ] in
       if conf.set_vary_header then
-        let h_v = set_vary_header_pf req hrd in
+        let h_v = set_vary_header_pf req in
         let hrd = h_n @ h_v in
         Dream.respond ~headers:hrd ~status:`No_Content ""
       else Dream.respond ~headers:h_n ~status:`No_Content ""

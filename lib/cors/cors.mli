@@ -41,7 +41,7 @@ type cors_error =
 val all_verbs_header : unit -> string list
 (** Helper function to make a header list of all http verbs. *)
 
-val non_preflight_headers : Dream.request -> (string * string) list
+val non_preflight_headers : Dream.response -> (string * string) list
 (** Helper function to return CORS relevant headers in non-preflight response.
 *)
 
@@ -53,6 +53,7 @@ val make_cors_conf :
   ?max_age:float ->
   ?preflight:bool ->
   ?set_vary_header:bool ->
+  ?allow_no_origin:bool ->
   unit ->
   cors_conf
 (** [make_cors_conf args...] makes a CORS configuration. *)

@@ -6,6 +6,7 @@ type cors_conf = {
   max_age : float;
   preflight : bool;
   set_vary_header : bool;
+  allow_no_origin : bool;
 }
 
 and allowed_origin_type =
@@ -105,7 +106,7 @@ let is_valid_max_age ma = if ma < 0. || ma > 86400. then false else true
 
 let make_cors_conf ~allowed_origin ~allowed_methods ~allowed_headers
     ~expose_headers ?(max_age = 7200.) ?(preflight = true)
-    ?(set_vary_header = true) () =
+    ?(set_vary_header = true) ?(allow_no_origin = false) () =
   if not @@ is_valid_max_age max_age then
     raise (InvalidMaxAge "max_age: Max age must be between 0 and 86400 seconds")
   else if not @@ is_valid_origin_ty allowed_origin then
@@ -125,6 +126,7 @@ let make_cors_conf ~allowed_origin ~allowed_methods ~allowed_headers
       max_age;
       preflight;
       set_vary_header;
+      allow_no_origin;
     }
 
 let hdr_list_of_str hdr_str = String.split_on_char ',' hdr_str
@@ -157,7 +159,7 @@ let validate_origin conf req =
         | OriginUrlFn (_, url_fn) ->
             if orig = url_fn () then Ok true else Error OriginNotAllowed
         | _ -> Ok true)
-  | None -> Error MissingOrigin
+  | None -> if conf.allow_no_origin then Ok true else Error MissingOrigin
 
 let validate_request_method conf req =
   match Dream.header req "Access-Control-Request-Method" with
@@ -298,7 +300,7 @@ let handle_cors is_preflight conf inner_handler req =
     Dream.add_header rep "Access-Control-Expose-Headers"
     @@ hdr_str_of_list conf.expose_headers;
     if conf.set_vary_header then build_vary_header rep;
-    Utils.print_all_headers rep; (* Debug *)
+    Utils.print_all_headers rep;
     Lwt.return rep)
 
 let make_cors : cors_conf -> Dream.middleware = 

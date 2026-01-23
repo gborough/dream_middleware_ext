@@ -514,7 +514,7 @@ let%expect_test "non_preflight_ok" =
   let open Cors in
   let cors_conf =
     make_cors_conf
-      ~allowed_origin:(OriginUrl (Allow, "http://127.0.0.1"))
+      ~allowed_origin:(OriginUrl (Disallow, "http://127.0.0.1"))
       ~allowed_methods:[ "GET"; "POST" ] ~allowed_headers:[ "A" ]
       ~expose_headers:[ "GET" ] ()
   in
@@ -536,7 +536,8 @@ let%expect_test "non_preflight_ok" =
     Response: 200 OK
     Access-Control-Allow-Origin: http://127.0.0.1
     Access-Control-Expose-Headers: GET
-    Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers |}]
+    Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+    |}]
 
 let%expect_test "non_preflight_missing_origin" =
   let open Cors in

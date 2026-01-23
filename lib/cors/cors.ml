@@ -298,7 +298,7 @@ let handle_cors is_preflight conf inner_handler req =
     Dream.add_header rep "Access-Control-Expose-Headers"
     @@ hdr_str_of_list conf.expose_headers;
     if conf.set_vary_header then build_vary_header rep;
-    print_all_headers rep; (* Debug *)
+    Utils.print_all_headers rep; (* Debug *)
     Lwt.return rep)
 
 let make_cors : cors_conf -> Dream.middleware = 
